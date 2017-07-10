@@ -10,12 +10,5 @@ class AbstractWorker(object):
         self.l = Logger(mod_name)
     def match(self, message):
         return True
-    def execute(self, message):
-        return message
     def run(self, message):
-        "run execute with try wrapper"
-        try:
-            message = self.execute(message)
-        except Exception as e:
-            self.l.error("EXCEPTION: {}".format(e))
         return message
