@@ -9,10 +9,10 @@ class DBConn(object):
         self.db = self._setup_connection()
 
     def _setup_connection(self):
-        self.l.debug("Connecting to redis DB: {}:{} db:{}".format(
+        self.l.debug("Using redis as message backend: {}:{} db:{}".format(
             config.REDIS_HOST, config.REDIS_PORT, config.REDIS_DB))
         return redis.StrictRedis(host=config.REDIS_HOST,
-                                 port=config.REDIS_PORT, db=config.REDIS_DB)
+                                 port=config.REDIS_PORT, db=config.REDIS_DB, decode_responses=True)
 
     def get_message(self):
         "pop the message off or block"
