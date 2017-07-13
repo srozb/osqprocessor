@@ -3,6 +3,6 @@
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_DB = 0
-DAEMON = True
+DAEMON = False
 LOG_LEVEL = 'DEBUG'
 SYSLOG_ADDR = '/dev/log'
