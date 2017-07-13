@@ -1,5 +1,6 @@
 import redis
 import config
+import json
 from logger.logger import Logger
 
 
@@ -16,8 +17,7 @@ class DBConn(object):
 
     def get_message(self):
         "pop the message off or block"
-        message = self.db.blpop('osq_preprocessed')
-        return message
+        return json.loads(self.db.blpop('osq_preprocessed')[1])
 
     def store_message(self, message):
         self.db.lpush('osq_processed', message)

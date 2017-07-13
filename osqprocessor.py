@@ -3,11 +3,11 @@
 import daemon
 import config
 from processor.processor import Processor
-from processor.workers import debug_worker
+from processor.workers import debug_worker, fancy_logger
 from logger.logger import Logger
 from dbconn.dbconn import DBConn
 
-INSTALLED_WORKERS = [debug_worker]
+INSTALLED_WORKERS = [fancy_logger]
 
 def setup_logger():  # TODO: to file if daemon
     if config.DAEMON:
@@ -45,4 +45,7 @@ def loop():
 l = setup_logger()
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        l.info("Keyboard interrupt catched. Closing...")
