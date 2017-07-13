@@ -1,13 +1,20 @@
 import logging
+import logging.handlers
 import config
 
 class Logger(object):
     console_log_format = "%(asctime)-15s %(name)s %(message)s"
+    syslog_log_format = "osqprocessor[%(process)d]: %(name)s %(message)s"
     def __init__(self, mod_name):
         self.logger = logging.getLogger(mod_name)
         self.logger.setLevel(config.LOG_LEVEL)
-        self.formatter = logging.Formatter(self.console_log_format)
-        self.handler = logging.StreamHandler()
+
+        if config.DAEMON:
+            self.formatter = logging.Formatter(self.syslog_log_format)
+            self.handler = logging.handlers.SysLogHandler(address = config.SYSLOG_ADDR)
+        else:
+            self.formatter = logging.Formatter(self.console_log_format)
+            self.handler = logging.StreamHandler()
         self.handler.setFormatter(self.formatter)
         self.logger.addHandler(self.handler)
 
