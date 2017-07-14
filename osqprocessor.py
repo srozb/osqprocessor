@@ -9,12 +9,6 @@ from dbconn.dbconn import DBConn
 
 INSTALLED_WORKERS = [fancy_logger]
 
-def setup_logger():  # TODO: to file if daemon
-    if config.DAEMON:
-        return Logger(__name__)
-    else:
-        return Logger(__name__)
-
 
 def setup_processor():
     p = Processor()
@@ -42,7 +36,7 @@ def loop():
         p.process(message)
         r.store_message(message)
 
-l = setup_logger()
+l = Logger(__name__)
 
 if __name__ == "__main__":
     try:
