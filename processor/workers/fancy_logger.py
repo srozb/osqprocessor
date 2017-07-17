@@ -16,17 +16,29 @@ class Worker(AbstractWorker):
         buf = json.dumps(message, indent=4)
         return highlight(buf, lexers.JsonLexer(), formatters.TerminalFormatter())
 
+    def _isEventQueryResult(self, message):
+        if 'data' in message['message']:
+            for msg in message['message']['data']:
+                if 'name' in msg:
+                    return True
+
+    def _isDistributedQueryResult(self, message):
+        return 'queries' in message['message']
+
     def match(self, message):
-        for msg in message['message']['data']:
-            if 'name' in msg:
-                return True
-        return False
+        "return True if message is a (event/distributed) query result"
+        return self._isEventQueryResult(message) or self._isDistributedQueryResult(message)
 
     def run(self, message):
         "debug worker will only log the message content"
-        result = []
-        for msg in message['message']['data']:
-            if 'name' in msg:
-                result.append(msg)
-        self.l.debug("data received: {}".format(self._colorify(result)))
+        if self._isEventQueryResult(message):
+            result = []
+            for msg in message['message']['data']:
+                if 'name' in msg:
+                    result.append(msg)
+            self.l.debug("event query result: \n{}".format(
+                self._colorify(result)))
+        if self._isDistributedQueryResult(message):
+            self.l.debug("distrib query result: \n{}".format(
+                self._colorify(message['message']['queries'])))
         return message
