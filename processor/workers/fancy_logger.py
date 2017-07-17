@@ -13,14 +13,15 @@ class Worker(AbstractWorker):
     def _colorify(self, message):
         if config.DAEMON:
             return message
-        buf = json.dumps(message, indent=4)
-        return highlight(buf, lexers.JsonLexer(), formatters.TerminalFormatter())
+        return highlight(json.dumps(message, indent=4),
+                                    lexers.JsonLexer(), formatters.TerminalFormatter())
 
     def _isEventQueryResult(self, message):
-        if 'data' in message['message']:
-            for msg in message['message']['data']:
-                if 'name' in msg:
-                    return True
+        if 'data' not in message['message']:
+            return False
+        for msg in message['message']['data']:
+            if 'name' in msg:
+                return True
 
     def _isDistributedQueryResult(self, message):
         return 'queries' in message['message']
