@@ -34,7 +34,10 @@ def loop():
     while True:
         message = r.get_message()
         message = p.process(message)
-        r.store_message(message)
+        if message:
+            r.store_message(message)
+        else:
+            l.debug("message dropped: {}".format(message))
 
 l = Logger(__name__)
 
