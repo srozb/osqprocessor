@@ -33,7 +33,7 @@ def loop():
     r = setup_db()
     while True:
         message = r.get_message()
-        p.process(message)
+        message = p.process(message)
         r.store_message(message)
 
 l = Logger(__name__)

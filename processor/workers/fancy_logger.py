@@ -14,7 +14,7 @@ class Worker(AbstractWorker):
         if config.DAEMON:
             return message
         return highlight(json.dumps(message, indent=4),
-                                    lexers.JsonLexer(), formatters.TerminalFormatter())
+                         lexers.JsonLexer(), formatters.TerminalFormatter())
 
     def _isEventQueryResult(self, message):
         if 'data' not in message['message']:
