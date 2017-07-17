@@ -18,5 +18,5 @@ class Processor():
                 if worker.match(message):
                     message = worker.run(message)
             except Exception as e:
-                self.l.error("EXCEPTION: {} failed: {}".format(worker.name, e))
+                self.l.exception(e)
         return message

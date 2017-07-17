@@ -32,3 +32,6 @@ class Logger(object):
 
     def critical(self, buf):
         self.logger.critical(buf)
+
+    def exception(self, exc):
+        self.logger.exception(exc)
