@@ -3,11 +3,11 @@
 import daemon
 import config
 from processor.processor import Processor
-from processor.workers import debug_worker, fancy_logger
+from processor.workers import debug_worker, fancy_logger, inventory_worker
 from logger.logger import Logger
 from dbconn.dbconn import DBConn
 
-INSTALLED_WORKERS = [fancy_logger]
+INSTALLED_WORKERS = [inventory_worker]
 
 
 def setup_processor():
