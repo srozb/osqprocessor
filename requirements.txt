@@ -1,4 +1,4 @@
-python-deamon>=2.1
+python-daemon>=2.1
 redis>=2.10
 pygments>=2.0
 dataset>=0.6
